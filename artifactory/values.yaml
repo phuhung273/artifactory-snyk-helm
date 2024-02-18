@@ -357,6 +357,8 @@ artifactory:
   #  - source: /artifactory_bootstrap/artifactory.lic
   #    # Relative to ARTIFACTORY_HOME/
   #    target: etc/artifactory/
+    - source: /artifactory_bootstrap/plugins/*
+      target: etc/artifactory/plugins/
 
   # Sidecar containers for tailing Artifactory logs
   loggers: []
@@ -528,6 +530,7 @@ artifactory:
   #  - build-cleanup
   #  - webhook
   #  - '{{ template "my-chart.fullname" . }}'
+    - '{{ template "artifactory.fullname" . }}-snyk-config'
 
   ## Artifactory requires a unique master key.
   ## You can generate one with the command: "openssl rand -hex 32"
