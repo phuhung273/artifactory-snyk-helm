@@ -329,31 +329,31 @@ spec:
             mountPath: "/tmp/circleoftrustcerts"
       {{- end }}
 
-      - name: "copy-snyk"
-        image: "{{ .Values.initContainerImage }}"
-        securityContext:
-          runAsNonRoot: false
-          allowPrivilegeEscalation: false
-          runAsUser: 0
-        resources:
-{{ toYaml .Values.initContainers.resources | indent 10 }}
-        command:
-        - '/bin/bash'
-        - '-c'
-        - >
-          microdnf install --nodocs -y unzip;
-          mkdir -p {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/plugins/lib;
-          echo "Downloading snyk plugin";
-          curl -Lo /tmp/snyk.zip https://github.com/snyk/artifactory-snyk-security-plugin/releases/download/v2.0.0/artifactory-snyk-security-plugin-v2.0.0.zip;
-          unzip /tmp/snyk.zip;
-          echo "Copy snyk.zip file";
-          mv plugins/snykSecurityPlugin.groovy {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/plugins/;
-          mv plugins/lib/artifactory-snyk-security-core.jar {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/plugins/lib/;
-          mv plugins/lib/snykSecurityPlugin.version {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/plugins/lib/;
-          chown -R 1030:1030 {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/plugins;
-        volumeMounts:
-          - name: artifactory-volume
-            mountPath: {{ .Values.artifactory.persistence.mountPath }}
+#       - name: "copy-snyk"
+#         image: "{{ .Values.initContainerImage }}"
+#         securityContext:
+#           runAsNonRoot: false
+#           allowPrivilegeEscalation: false
+#           runAsUser: 0
+#         resources:
+# {{ toYaml .Values.initContainers.resources | indent 10 }}
+#         command:
+#         - '/bin/bash'
+#         - '-c'
+#         - >
+#           microdnf install --nodocs -y unzip;
+#           mkdir -p {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/plugins/lib;
+#           echo "Downloading snyk plugin";
+#           curl -Lo /tmp/snyk.zip https://github.com/snyk/artifactory-snyk-security-plugin/releases/download/v2.0.0/artifactory-snyk-security-plugin-v2.0.0.zip;
+#           unzip /tmp/snyk.zip;
+#           echo "Copy snyk.zip file";
+#           mv plugins/snykSecurityPlugin.groovy {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/plugins/;
+#           mv plugins/lib/artifactory-snyk-security-core.jar {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/plugins/lib/;
+#           mv plugins/lib/snykSecurityPlugin.version {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/plugins/lib/;
+#           chown -R 1030:1030 {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/plugins;
+#         volumeMounts:
+#           - name: artifactory-volume
+#             mountPath: {{ .Values.artifactory.persistence.mountPath }}
 
     {{- if .Values.waitForDatabase }}
       {{- if .Values.postgresql.enabled }}
