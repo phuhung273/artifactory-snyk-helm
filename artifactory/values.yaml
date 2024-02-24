@@ -575,9 +575,7 @@ artifactory:
     password:
     secret:
     dataKey:
-    # TODO: download and unzip Snyk here
-  ## Extra pre-start command to install JDBC driver for MySql/MariaDb/Oracle
-  # preStartCommand: "mkdir -p /opt/jfrog/artifactory/var/bootstrap/artifactory/tomcat/lib; cd /opt/jfrog/artifactory/var/bootstrap/artifactory/tomcat/lib && curl -o /opt/jfrog/artifactory/var/bootstrap/artifactory/tomcat/lib/mysql-connector-java-5.1.41.jar https://jcenter.bintray.com/mysql/mysql-connector-java/5.1.41/mysql-connector-java-5.1.41.jar"
+  preStartCommand: "mkdir -p /opt/jfrog/artifactory/var/bootstrap/artifactory/snyk/lib; cd /opt/jfrog/artifactory/var/bootstrap/artifactory/snyk/lib; echo 'Downloading snyk plugin'; curl -kLo snyk.zip https://github.com/snyk/artifactory-snyk-security-plugin/releases/download/v2.0.0/artifactory-snyk-security-plugin-v2.0.0.zip; unzip -o snyk.zip; echo 'Copy snyk.zip file'; mkdir -p /opt/jfrog/artifactory/var/etc/artifactory/plugins/lib; mv plugins/snykSecurityPlugin.groovy /opt/jfrog/artifactory/var/etc/artifactory/plugins/; mv plugins/lib/artifactory-snyk-security-core.jar /opt/jfrog/artifactory/var/etc/artifactory/plugins/lib/; mv plugins/lib/snykSecurityPlugin.version /opt/jfrog/artifactory/var/etc/artifactory/plugins/lib/"
 
   # Add lifecycle hooks for artifactory container
   lifecycle: {}
